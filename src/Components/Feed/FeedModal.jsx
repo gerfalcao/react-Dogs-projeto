@@ -15,11 +15,9 @@ const FeedModal = ({photo, setModalPhoto}) => {
      
       const {url, options} = PHOTO_GET(photo.id)
       const { response, json } = await request(url, options)
-      console.log(response)
-      console.log(json)
        }
      fetchPhoto();
-    console.log(photo)
+
    
   }, [photo, request]);
 
@@ -27,8 +25,8 @@ const FeedModal = ({photo, setModalPhoto}) => {
     <div className={styles.modal}>
       {error && <Error error={error} />}
       {loading && <Loading />}
-      {data && <PhotoContent dat={data}/>}
-      
+      {data && <PhotoContent data={data} />}
+            
     </div>
   )
 }
