@@ -9,6 +9,12 @@ import PhotoContent from '../Photo/PhotoContent';
 const FeedModal = ({photo, setModalPhoto}) => {
   const {data, error, loading, request} = useFetch();
 
+  function handleOutsideClick(event) {
+    if (event.target === event.currentTarget) {
+      setModalPhoto(null)
+    }
+  }
+
   React.useEffect(() => {
     
     async function fetchPhoto() {
@@ -22,7 +28,7 @@ const FeedModal = ({photo, setModalPhoto}) => {
   }, [photo, request]);
 
   return (
-    <div className={styles.modal}>
+    <div className={styles.modal} onClick={handleOutsideClick}>
       {error && <Error error={error} />}
       {loading && <Loading />}
       {data && <PhotoContent data={data} />}
