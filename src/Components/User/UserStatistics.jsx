@@ -1,9 +1,33 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import Head from '../Helper/Head'
+import useFetch from '../../Hooks/useFetch'
+import { STATS_GET } from '../../api';
+import Loading from '../Helper/Loading';
+import Error from '../Helper/Error';
+
+const UserStatisticsGraphs = React.lazy(() => import('./UserStatisticsGraphs'));
 
 const UserStatistics = () => {
+  const {data, error, loading, request} = useFetch();
+
+  useEffect(() => {
+    async function getData() {
+      const {url, options} = STATS_GET();
+      await request(url, options)
+    }
+    getData();
+  },[request])
+
+  if(loading) return <Loading />
+  if(error) return <Error error={error} />
+  if(data)
   return (
-    <div>Estatísticas</div>
+    <React.Suspense fallback={<div></div>}>
+      <Head title='Estatísticas do usuário' />
+      <UserStatisticsGraphs data={data}/>
+    </React.Suspense>
   )
+  else return null
 }
 
 export default UserStatistics
